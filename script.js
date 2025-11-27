@@ -1,21 +1,22 @@
 let tg = window.Telegram.WebApp;
 
-// Telegram theme অনুযায়ী অটো ডার্ক/লাইট
 tg.expand();
 
-// Fake balance for display only
-let balance = 0;
-document.getElementById("balance").innerText = balance + " ৳";
+// অন্য জায়গা থেকে balance লোড করা না থাকলে 0 দেখাবে
+let bal = 0;
+document.getElementById("balance").innerText = bal + " ৳";
 
-// When user clicks button, send data to bot
-function sendAction(action) {
+// এই ফাংশন বাটনে ক্লিক করলে Bot-এ ডেটা পাঠাবে
+function sendAction(actionName) {
 
     let data = {
-        event: action,
-        user: tg.initDataUnsafe.user
+        "event": actionName,
+        "time": Date.now()
     };
 
-    tg.sendData(JSON.stringify(data)); // Send JSON to bot
+    // Telegram Bot এ ডেটা পাঠায়
+    tg.sendData(JSON.stringify(data));
 
-    tg.close();  // Auto close after sending
+    // পাঠানোর পর WebApp বন্ধ
+    tg.close();
 }
