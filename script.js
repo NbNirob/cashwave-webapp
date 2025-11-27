@@ -1,23 +1,21 @@
-// Telegram WebApp API লোড করা
-let tg = window.Telegram ? window.Telegram.WebApp : null;
-if(tg) tg.expand();
+let tg = window.Telegram.WebApp;
 
-// Placeholder balance (পরে বট আপডেট করবে)
-const balanceEl = document.getElementById("balance");
-if(balanceEl) balanceEl.innerText = "0 ৳";
+// Telegram theme অনুযায়ী অটো ডার্ক/লাইট
+tg.expand();
 
-// Button Functions
-function earn() {
-    if(tg && tg.sendData) tg.sendData(JSON.stringify({action: "earn"}));
-    else alert("Will send: earn");
-}
+// Fake balance for display only
+let balance = 0;
+document.getElementById("balance").innerText = balance + " ৳";
 
-function refer() {
-    if(tg && tg.sendData) tg.sendData(JSON.stringify({action: "refer"}));
-    else alert("Share referral link");
-}
+// When user clicks button, send data to bot
+function sendAction(action) {
 
-function withdraw() {
-    if(tg && tg.sendData) tg.sendData(JSON.stringify({action: "withdraw"}));
-    else alert("Withdraw requested");
+    let data = {
+        event: action,
+        user: tg.initDataUnsafe.user
+    };
+
+    tg.sendData(JSON.stringify(data)); // Send JSON to bot
+
+    tg.close();  // Auto close after sending
 }
